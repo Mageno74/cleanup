@@ -1,26 +1,56 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { markFaults } from './faultsHandling';
+import { openClose } from './checkInstruction';
+import { onlyFromat } from './onlyFormat';
+import { renumber } from './renumber';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "cleanup" is now active!');
+// CNC Programm formatieren und nummerieren
+    let cleanup = vscode.commands.registerCommand('cleanup', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return; // No active editor
+        }
+        const doc: vscode.TextDocument = editor.document;
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('cleanup.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from cleanup!');
-	});
+        // konrolle IF/ELSE/ENDIF/LOOP/FOR/WHILE
+        const faultDic: { [key: string]: Array<number> } = openClose(doc);
 
-	context.subscriptions.push(disposable);
+        // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
+        if (markFaults(faultDic, doc)) {
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
+            return;
+        }
+        renumber(doc, editor);
+    });    
+    context.subscriptions.push(cleanup);
+
+    
+
+// CNC Programm formatieren
+    let onlyFormat = vscode.commands.registerCommand('onlyFormat', () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return; // No active editor
+        }
+        const doc: vscode.TextDocument = editor.document;
+
+        // konrolle IF/ELSE/ENDIF/LOOP/FOR/WHILE
+        const faultDic: { [key: string]: Array<number> } = openClose(doc);
+
+        // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
+        if (markFaults(faultDic, doc)) {
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
+            return;
+        }
+
+        onlyFromat(doc, editor);
+    });    
+    context.subscriptions.push(onlyFormat);
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
+
+

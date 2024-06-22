@@ -1,71 +1,67 @@
 # cleanup README
 
-This is the README for your extension "cleanup". After writing up a brief description, we recommend including the following sections.
+cleanup ist für Siemens Sinumerik 840D CNC Programme
+
+## Usage
+
+Befehlszeile öffnen (Windows -> STRG+Shift+P, macOS -> Umschalt+Command+P)
+
+"cleanup" in die Befehlszeile schreiben und mit Enter Bestätigen
+
+"onlyFormat"  in die Befehlszeile schreiben und mit Enter Bestätigen
 
 ## Features
+"onlyFormat" --> orginale Zeilennummern bleiben erhalten. Zeilen ohne Nummer bekommen die Nummer N1111
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+"cleanup" --> es nummeriert den CNC Code neu. Es beginnt mit "N1000" und erhöht jede Zeile um 5
 
-For example if there is an image subfolder under your extension project workspace:
+es werden Zeilen die nur eine Zeilennummer enthalten gelöscht
 
-\!\[feature X\]\(images/feature-x.png\)
+es werden Leerzeilen gelöscht, wenn mehr als eine Leerzeile in folge kommt
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+es werden Leerzeichen am Zeilenende gelöscht
+
+Komentare nach einem ";" bleiben unverändert
+
+es wird die Einrückung (2 Leerzeichen) bei IF/ENDIF/ELSE, WHILE/ENDWHILE, LOOP/ENDLOOP richtig gestellt
+
+es wird überprüft ob IF/ENDIF/ELSE, WHILE/ENDWHILE, LOOP/ENDLOOP paarweise vorkommen
+
+die Verschachtelung von IF/ENDIF/ELSE, WHILE/ENDWHILE, LOOP/ENDLOOP wird überprüft
+
+es wird überprüft ob Klammern paarweise vorkommen
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+keine
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Startnummer --> mit dieser Nummer startet die Nummerierung (z.B.:1000 --> N1000)
 
-For example:
+Schritt --> um diesen Wert wird die Zeilennummer erhöht (z.B.: 5 --> N1005)
 
-This extension contributes the following settings:
+Einrückung --> Anzahl der Leerzeichen für die Einrückung
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Maximanle Anzahl an leeren Zeilen --> Legt fest wie viele leere Zeilen in Folge vorkommen dürfen
+
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+alles auf eigene Gefahr
 
 ## Release Notes
+version 1.0.3
+--- Fehleranzeige verbessert
 
-Users appreciate release notes as you update your extension.
+version 1.0.2
+--- Setting für maximale Anzahl an leeren Zeilen
+--- "onlyFormat" hinzu
 
-### 1.0.0
+version 1.0.1
+--- Setting für Nummerierung und Einrückung hinzu
 
-Initial release of ...
+version 1.0.0 
+--- Veröffentlichung
 
-### 1.0.1
 
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**

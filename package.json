@@ -2,9 +2,13 @@
   "name": "cleanup",
   "displayName": "cleanup",
   "description": "cleanup cnc code",
-  "version": "0.0.1",
+  "version": "1.0.3",
+  "publisher": "Mageno",
   "engines": {
     "vscode": "^1.90.0"
+  },
+  "author": {
+    "name": "kaepsele"
   },
   "categories": [
     "Other"
@@ -12,10 +16,51 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+        "properties": {
+            "cleanup.start": {
+                "type": "integer",
+                "default": 10,
+                "minimum": 1,
+                "maximum": 100000,
+                "multipleOf": 1,
+                "description": "Startnummer"
+            },
+            "cleanup.inc": {
+                "type": "integer",
+                "default": 1,
+                "minimum": 1,
+                "maximum": 10000,
+                "multipleOf": 1,
+                "description": "Schrittweite der Numerierung"
+            },
+            "cleanup.indentSice": {
+                "type": "integer",
+                "default": 2,
+                "minimum": 1,
+                "maximum": 5,
+                "multipleOf": 1,
+                "description": "Einrückung (Leerzeichen)"
+            },
+            "cleanup.maxEmptyLines": {
+                "type": "integer",
+                "default": 1,
+                "minimum": 1,
+                "maximum": 5,
+                "multipleOf": 1,
+                "description": "Maximale Anzahl an leeren Zeilen"
+            }
+        }
+    },
     "commands": [
       {
-        "command": "cleanup.helloWorld",
-        "title": "Hello World"
+        "command": "cleanup",
+        "title": "cleanup"
+      },
+      {
+        "command": "onlyFormat",
+        "title": "onlyFormat"
       }
     ]
   },
