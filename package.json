@@ -21,7 +21,7 @@
         "properties": {
             "cleanup.start": {
                 "type": "integer",
-                "default": 10,
+                "default": 1000,
                 "minimum": 1,
                 "maximum": 100000,
                 "multipleOf": 1,
@@ -29,7 +29,7 @@
             },
             "cleanup.inc": {
                 "type": "integer",
-                "default": 1,
+                "default": 5,
                 "minimum": 1,
                 "maximum": 10000,
                 "multipleOf": 1,
@@ -56,11 +56,11 @@
     "commands": [
       {
         "command": "cleanup",
-        "title": "cleanup"
+        "title": "CNC_nummerieren"
       },
       {
         "command": "onlyFormat",
-        "title": "onlyFormat"
+        "title": "CNC_formatieren"
       }
     ]
   },
