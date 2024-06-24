@@ -51,17 +51,25 @@ Maximanle Anzahl an leeren Zeilen --> Legt fest wie viele leere Zeilen in Folge 
 alles auf eigene Gefahr
 
 ## Release Notes
-version 1.0.3
---- Fehleranzeige verbessert
 
-version 1.0.2
---- Setting für maximale Anzahl an leeren Zeilen
---- "onlyFormat" hinzu
+## [v1.0.4] - 2024-06-24
+### Added
+- Logo
 
-version 1.0.1
---- Setting für Nummerierung und Einrückung hinzu
+## [v1.0.3] - 2024-06-23
+### Fixed
+- problem bei der Fehleranzeige wenn mehrere Dateien geöffnet sind
 
-version 1.0.0 
---- Veröffentlichung
+## [v1.0.2] - 2024-06-22
+### Added
+- Setting für maximale Anzahl an leeren Zeilen
+- Funktion nur formatieren, ohne zu nummerieren
+
+## [v1.0.1] - 2024-06-21
+### Added
+- Setting für Nummerierung und Einrückung
+
+## [v1.0.0] - 2024-06-20
+- Initial release
 
 

@@ -2,8 +2,9 @@
   "name": "cleanup",
   "displayName": "cleanup",
   "description": "cleanup cnc code",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "Mageno",
+	"icon": "logo.png",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -38,7 +39,7 @@
             "cleanup.indentSice": {
                 "type": "integer",
                 "default": 2,
-                "minimum": 1,
+                "minimum": 0,
                 "maximum": 5,
                 "multipleOf": 1,
                 "description": "Einrückung (Leerzeichen)"
@@ -46,7 +47,7 @@
             "cleanup.maxEmptyLines": {
                 "type": "integer",
                 "default": 1,
-                "minimum": 1,
+                "minimum": 0,
                 "maximum": 5,
                 "multipleOf": 1,
                 "description": "Maximale Anzahl an leeren Zeilen"
@@ -56,11 +57,11 @@
     "commands": [
       {
         "command": "cleanup",
-        "title": "CNC_nummerieren"
+        "title": "NC_nummerieren"
       },
       {
         "command": "onlyFormat",
-        "title": "CNC_formatieren"
+        "title": "NC_formatieren"
       }
     ]
   },

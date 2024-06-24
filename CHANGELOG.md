@@ -2,8 +2,23 @@
 
 All notable changes to the "cleanup" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [v1.0.4] - 2024-06-24
+### Added
+- Logo
 
-## [Unreleased]
+## [v1.0.3] - 2024-06-23
+### Fixed
+- problem bei der Fehleranzeige wenn mehrere Dateien geöffnet sind
 
+## [v1.0.2] - 2024-06-22
+### Added
+- Setting für maximale Anzahl an leeren Zeilen
+- Funktion nur formatieren, ohne zu nummerieren
+
+## [v1.0.1] - 2024-06-21
+### Added
+- Setting für Nummerierung und Einrückung
+
+## [v1.0.0] - 2024-06-20
 - Initial release
+
