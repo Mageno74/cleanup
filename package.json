@@ -2,7 +2,7 @@
   "name": "cleanup",
   "displayName": "cleanup",
   "description": "cleanup cnc code",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "Mageno",
 	"icon": "logo.png",
   "engines": {
@@ -11,6 +11,13 @@
   "author": {
     "name": "kaepsele"
   },
+  "keywords": [
+    "Siemens",
+    "Sinumerik",
+    "cnc code",
+    "renumber",
+    "format"
+  ],
   "categories": [
     "Other"
   ],

@@ -11,6 +11,7 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor:vscode.TextEdito
     let countEmpty: number = 0;
     let newText: string = "";
     let countIndent: number = 0;
+    let digits: number = 4;
 
     // Zeilen neu nummerieren und formatieren
     editor.edit(editBuilder => {
@@ -22,10 +23,12 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor:vscode.TextEdito
             if (/^%_N_/.test(line.text)){
                 countIndent = 0;
             }
-            // orginal Nummer speichern
+            // orginal Nummer speichern und die Anzahl der Nummer speichern
             let orgNumber: any = line.text.match(/^\s*N\d+/i);
             if (!orgNumber){
-                orgNumber = 'N1111';
+                orgNumber = 'N' + ('1'.repeat(digits));
+            }else{
+                digits = orgNumber[0].length -1;
             }
 
             // Entfernt alle Nummern und Leerzeichen am Anfang und Ende

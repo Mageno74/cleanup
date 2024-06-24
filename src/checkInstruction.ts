@@ -41,7 +41,7 @@ export function openClose(cncCode: vscode.TextDocument): { [key: string]: Array<
             // iteriert durch das Dictionary und kontolliert ob alle Array leer sind
             for (const key in allFaults) {
                 if (allFaults[key].length !== 0){
-                    return allFaults;
+                    break;
                 }
             }
         }

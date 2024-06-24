@@ -52,6 +52,10 @@ alles auf eigene Gefahr
 
 ## Release Notes
 
+## [v1.0.5] - 
+### Fixed
+- Fehler bei IF Fehler in einem MultiArchiv
+
 ## [v1.0.4] - 2024-06-24
 ### Added
 - Logo
