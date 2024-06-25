@@ -33,7 +33,7 @@ es wird überprüft ob Klammern paarweise vorkommen
 
 ## Requirements
 
-keine
+VSCode Version 1.90.0
 
 ## Extension Settings
 

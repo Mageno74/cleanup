@@ -7,7 +7,7 @@ import { renumber } from './renumber';
 export function activate(context: vscode.ExtensionContext) {
 
 // CNC Programm formatieren und nummerieren
-    let cleanup = vscode.commands.registerCommand('cleanup', () => {
+    let cleanupDisposable = vscode.commands.registerCommand('cleanup', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             return; // No active editor
@@ -24,12 +24,12 @@ export function activate(context: vscode.ExtensionContext) {
         }
         renumber(doc, editor);
     });    
-    context.subscriptions.push(cleanup);
+    context.subscriptions.push(cleanupDisposable);
 
     
 
 // CNC Programm formatieren
-    let onlyFormat = vscode.commands.registerCommand('onlyFormat', () => {
+    let onlyFormatDisposable = vscode.commands.registerCommand('onlyFormat', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             return; // No active editor
@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         onlyFromat(doc, editor);
     });    
-    context.subscriptions.push(onlyFormat);
+    context.subscriptions.push(onlyFormatDisposable);
 }
 
 // This method is called when your extension is deactivated
