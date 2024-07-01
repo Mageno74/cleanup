@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
         if (markFaults(faultDic, doc)) {
-            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> V106");
             return;
         }
         renumber(doc, editor);
@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
         if (markFaults(faultDic, doc)) {
-            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> V106");
             return;
         }
 
