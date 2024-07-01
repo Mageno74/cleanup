@@ -33,7 +33,7 @@
                 "minimum": 1,
                 "maximum": 100000,
                 "multipleOf": 1,
-                "description": "Startnummer"
+                "description": "Startnummer (1-100000)"
             },
             "cleanup.inc": {
                 "type": "integer",
@@ -41,7 +41,7 @@
                 "minimum": 1,
                 "maximum": 10000,
                 "multipleOf": 1,
-                "description": "Schrittweite der Numerierung"
+                "description": "Schrittweite der Numerierung (1-10000)"
             },
             "cleanup.indentSice": {
                 "type": "integer",
@@ -49,7 +49,7 @@
                 "minimum": 0,
                 "maximum": 5,
                 "multipleOf": 1,
-                "description": "Einrückung (Leerzeichen)"
+                "description": "Einrückung (Leerzeichen(0-5))"
             },
             "cleanup.maxEmptyLines": {
                 "type": "integer",
@@ -57,7 +57,7 @@
                 "minimum": 0,
                 "maximum": 5,
                 "multipleOf": 1,
-                "description": "Maximale Anzahl an leeren Zeilen"
+                "description": "Maximale Anzahl an leeren Zeilen(0-5)"
             }
         }
     },
