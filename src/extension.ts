@@ -7,7 +7,7 @@ import { renumber } from './renumber';
 export function activate(context: vscode.ExtensionContext) {
 
 // CNC Programm formatieren und nummerieren
-    let cleanupDisposable = vscode.commands.registerCommand('cleanup', () => {
+    let cleanupDisposable = vscode.commands.registerCommand('nc-nummerieren', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             return; // No active editor
@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
         if (markFaults(faultDic, doc)) {
-            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> V106");
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
             return;
         }
         renumber(doc, editor);
@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
     
 
 // CNC Programm formatieren
-    let onlyFormatDisposable = vscode.commands.registerCommand('onlyFormat', () => {
+    let onlyFormatDisposable = vscode.commands.registerCommand('nc-formatieren', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             return; // No active editor
@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // falls Fehler gefunden werden --> Fehler anzeigen und Programm abberchen
         if (markFaults(faultDic, doc)) {
-            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> V106");
+            vscode.window.showErrorMessage("Fehler >> siehe Menü -> Anzeigen -> Probleme");
             return;
         }
 
