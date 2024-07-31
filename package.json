@@ -1,0 +1,94 @@
+{
+    "name": "cleanup",
+    "displayName": "cleanup",
+    "description": "cleanup cnc code",
+    "version": "1.0.8",
+    "publisher": "Mageno",
+    "icon": "logo.png",
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "author": {
+        "name": "kaepsele"
+    },
+    "keywords": [
+        "Siemens",
+        "Sinumerik",
+        "cnc code",
+        "renumber",
+        "format"
+    ],
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "cleanup.1.start": {
+                    "type": "integer",
+                    "default": 1000,
+                    "minimum": 1,
+                    "maximum": 100000,
+                    "multipleOf": 1,
+                    "description": "Startnummer (1-100000)"
+                },
+                "cleanup.2.inc": {
+                    "type": "integer",
+                    "default": 5,
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "multipleOf": 1,
+                    "description": "Schrittweite der Numerierung (1-1000)"
+                },
+                "cleanup.3.indentSice": {
+                    "type": "integer",
+                    "default": 2,
+                    "minimum": 0,
+                    "maximum": 5,
+                    "multipleOf": 1,
+                    "description": "Einrückung (Leerzeichen(0-5))"
+                },
+                "cleanup.4.maxEmptyLines": {
+                    "type": "integer",
+                    "default": 1,
+                    "minimum": 0,
+                    "maximum": 5,
+                    "multipleOf": 1,
+                    "description": "Maximale Anzahl an leeren Zeilen(0-5)"
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "nc_nummerieren",
+                "title": "NC_nummerieren"
+            },
+            {
+                "command": "nc_formatieren",
+                "title": "NC_formatieren"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.90.0",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "18.x",
+        "@typescript-eslint/eslint-plugin": "^7.4.0",
+        "@typescript-eslint/parser": "^7.4.0",
+        "eslint": "^8.57.0",
+        "typescript": "^5.3.3",
+        "@vscode/test-cli": "^0.0.8",
+        "@vscode/test-electron": "^2.3.9"
+    }
+}
