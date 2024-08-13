@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { brackets } from './checkBrackets';
+import { fileTypeCheck } from './fileTypeTest';
 
 export function openClose(cncCode: vscode.TextDocument): any {
     const stackSeqence: Array<any> = [];
@@ -8,17 +9,16 @@ export function openClose(cncCode: vscode.TextDocument): any {
         'IF': 'ENDIF',
         'WHILE': 'ENDWHILE',
         'LOOP': 'ENDLOOP',
-        'FOR': 'ENDFOR',
+        'FOR': 'ENDFOR'
     };
     const lastIf: Array<number> = [];
     let stackOpenClose: { [key: string]: Array<any> } = {
         'IF': [],
         'WHILE': [],
         'LOOP': [],
-        'FOR': [],
+        'FOR': []
     };
 
-    zeilenLoop:
     for (let i = 0; i < cncCode.lineCount; i++) {
         let line: any = cncCode.lineAt(i).text.replace(/^\s*N\d+/i, '').trim();
         const lineNumber: number = i + 1;
@@ -31,7 +31,10 @@ export function openClose(cncCode: vscode.TextDocument): any {
         // bei MultiArchiv wird nach jedem Programm kontolliert ob es ein Fehler gibt
         // bei einem Fehler wird abgebrochen und die Fehler zurückgegeben
         if (/^%/.test(line)) {
-            // iteriert durch das Dictionary und kontolliert ob alle Array leer sind
+            if (!fileTypeCheck(line)) {
+                vscode.window.showErrorMessage('Fehler >> siehe Menü -> Anzeigen -> Probleme');
+                faultArray.push([line, lineNumber, 'Falscher Dateiendung >> nur xxx_MPF oder xxx_SPF']);
+            }
             if (faultArray.length > 0 || stackSeqence.length > 0) {
                 break;
             }
@@ -61,8 +64,8 @@ export function openClose(cncCode: vscode.TextDocument): any {
         }
     }
     for (let key in stackOpenClose) {
-        for (let i = 0; i < stackOpenClose[`${key}`].length; i++) {
-            faultArray.push(stackOpenClose[`${key}`][i]);
+        for (let i = 0; i < stackOpenClose[key].length; i++) {
+            faultArray.push(stackOpenClose[key][i]);
         }
     }
     return faultArray;

@@ -7,7 +7,6 @@ export function markFaults(faults: Array<any>, cncCode: vscode.TextDocument): bo
     const diagnostics: vscode.Diagnostic[] = [];
     diagnosticCollection.clear();
     let isFault = false;
-    // iteriert durch das Dictionary und gibt alle Fehler aus
     for (let i = 0; i < faults.length; i++) {
         const range = new vscode.Range(faults[i][1] - 1, 0, faults[i][1] - 1, cncCode.lineAt(faults[i][1] - 1).text.length);
         const diagnostic = new vscode.Diagnostic(range, `Fehler >> ${faults[i][0]} >> ${faults[i][2]} `, vscode.DiagnosticSeverity.Error);
