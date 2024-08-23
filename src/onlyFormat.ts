@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
 import { indentation } from './indent';
 
-export function formatNc(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
-
+export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
     // Setting Zeilen
     const config = vscode.workspace.getConfiguration('cleanup');
     const indentSize = config.get<number>('3.indentSize', 1);
@@ -14,10 +13,10 @@ export function formatNc(cncCode: vscode.TextDocument, editor: vscode.TextEditor
     let digits: number = 4;
 
     // Zeilen neu nummerieren und formatieren
-    editor.edit(editBuilder => {
+    editor.edit((editBuilder) => {
         for (let i = 0; i < cncCode.lineCount; i++) {
             let line: vscode.TextLine = cncCode.lineAt(i);
-            const timedLine = line.text.trim();
+            const trimedLine = line.text.trim();
 
             // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
             // Setzt die Einrückung auf Null
@@ -45,7 +44,7 @@ export function formatNc(cncCode: vscode.TextDocument, editor: vscode.TextEditor
             }
 
             // Zeilen ohne Nummer -> Kommnetare ohne Nummer, Programm Anfang und leere Zeilen
-            if (/^(;|%|$)/i.test(timedLine) || withoutNumberLine === '') {
+            if (/^(;|%|$)/i.test(trimedLine) || withoutNumberLine === '') {
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
@@ -65,4 +64,3 @@ export function formatNc(cncCode: vscode.TextDocument, editor: vscode.TextEditor
     });
     vscode.window.showInformationMessage('formatiert');
 }
-

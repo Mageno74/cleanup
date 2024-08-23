@@ -6,21 +6,24 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
     const stackSequence: Array<[string, number]> = [];
     const faultArray: Array<[string, number, string]> = [];
     const instruction: { [key: string]: string } = {
-        'IF': 'ENDIF',
-        'WHILE': 'ENDWHILE',
-        'LOOP': 'ENDLOOP',
-        'FOR': 'ENDFOR'
+        IF: 'ENDIF',
+        WHILE: 'ENDWHILE',
+        LOOP: 'ENDLOOP',
+        FOR: 'ENDFOR',
     };
     const lastIf: Array<number> = [];
     let stackOpenClose: { [key: string]: Array<any> } = {
-        'IF': [],
-        'WHILE': [],
-        'LOOP': [],
-        'FOR': []
+        IF: [],
+        WHILE: [],
+        LOOP: [],
+        FOR: [],
     };
 
     for (let i = 0; i < cncCode.lineCount; i++) {
-        let line: any = cncCode.lineAt(i).text.replace(/^\s*N\d+/i, '').trim();
+        let line: any = cncCode
+            .lineAt(i)
+            .text.replace(/^\s*N\d+/i, '')
+            .trim();
         const lineNumber: number = i + 1;
 
         // kontrolle ob Klammern paarweise vorkommen und in der richtigen Reihenfolge
@@ -55,8 +58,11 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
                 faultArray.push([firstWord, lineNumber, 'Reihenfolge falsch']);
             }
         } else if (firstWord === 'ELSE') {
-            if (stackSequence.length === 0 || stackSequence[stackSequence.length - 1][0] !== 'IF' ||
-                lastIf.includes(stackSequence[stackSequence.length - 1][1])) {
+            if (
+                stackSequence.length === 0 ||
+                stackSequence[stackSequence.length - 1][0] !== 'IF' ||
+                lastIf.includes(stackSequence[stackSequence.length - 1][1])
+            ) {
                 faultArray.push([firstWord, lineNumber, 'Reihenfolge falsch']);
             } else {
                 lastIf.push(stackSequence[stackSequence.length - 1][1]);

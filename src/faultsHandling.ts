@@ -8,8 +8,17 @@ export function markFaults(faults: Array<[string, number, string]>, cncCode: vsc
     diagnosticCollection.clear();
     let isFault = false;
     for (let i = 0; i < faults.length; i++) {
-        const range = new vscode.Range(faults[i][1] - 1, 0, faults[i][1] - 1, cncCode.lineAt(faults[i][1] - 1).text.length);
-        const diagnostic = new vscode.Diagnostic(range, `Fehler >> ${faults[i][0]} >> ${faults[i][2]} `, vscode.DiagnosticSeverity.Error);
+        const range = new vscode.Range(
+            faults[i][1] - 1,
+            0,
+            faults[i][1] - 1,
+            cncCode.lineAt(faults[i][1] - 1).text.length
+        );
+        const diagnostic = new vscode.Diagnostic(
+            range,
+            `Fehler >> ${faults[i][0]} >> ${faults[i][2]} `,
+            vscode.DiagnosticSeverity.Error
+        );
         diagnostics.push(diagnostic);
         isFault = true;
     }
@@ -21,4 +30,3 @@ export function markFaults(faults: Array<[string, number, string]>, cncCode: vsc
     }
     return isFault;
 }
-

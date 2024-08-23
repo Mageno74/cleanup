@@ -1,24 +1,23 @@
 import * as vscode from 'vscode';
 import { markFaults } from './faultsHandling';
 import { openClose } from './checkInstruction';
-import { formatNc } from './onlyFormat';
-import { renumber } from './renumber';
+import { formatNC } from './onlyFormat';
+import { renumberNC } from './renumber';
 import { openCloseTrans } from './checkTrans';
 import { isIBNArc } from './fileTypeTest';
-import { checkNc } from './onlyCheck';
+import { checkNC } from './onlyCheck';
 
 export function activate(context: vscode.ExtensionContext) {
-
     let cleanupDisposable = vscode.commands.registerCommand('nc_nummerieren', () => {
-        processDocument(renumber);
+        processDocument(renumberNC);
     });
 
     let onlyFormatDisposable = vscode.commands.registerCommand('nc_formatieren', () => {
-        processDocument(formatNc);
+        processDocument(formatNC);
     });
 
     let onlyCheckDisposable = vscode.commands.registerCommand('nc_kontrollieren', () => {
-        processDocument(checkNc);
+        processDocument(checkNC);
     });
 
     context.subscriptions.push(cleanupDisposable);
@@ -27,12 +26,11 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() { }
-
+export function deactivate() {}
 
 function processDocument(process: (doc: vscode.TextDocument, editor: vscode.TextEditor) => void) {
     const editor = vscode.window.activeTextEditor;
-    if (!editor){
+    if (!editor) {
         return;
     }
     const doc = editor.document;
@@ -47,4 +45,3 @@ function processDocument(process: (doc: vscode.TextDocument, editor: vscode.Text
     }
     process(doc, editor);
 }
-
