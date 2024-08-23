@@ -2,9 +2,9 @@ import * as vscode from 'vscode';
 import { brackets } from './checkBrackets';
 import { fileTypeCheck } from './fileTypeTest';
 
-export function openClose(cncCode: vscode.TextDocument): any {
-    const stackSeqence: Array<any> = [];
-    const faultArray: Array<any> = [];
+export function openClose(cncCode: vscode.TextDocument): Array<[string, number, string]> {
+    const stackSequence: Array<[string, number]> = [];
+    const faultArray: Array<[string, number, string]> = [];
     const instruction: { [key: string]: string } = {
         'IF': 'ENDIF',
         'WHILE': 'ENDWHILE',
@@ -35,7 +35,7 @@ export function openClose(cncCode: vscode.TextDocument): any {
                 vscode.window.showErrorMessage('Fehler >> siehe Menü -> Anzeigen -> Probleme');
                 faultArray.push([line, lineNumber, 'Falscher Dateiendung >> nur xxx_MPF oder xxx_SPF']);
             }
-            if (faultArray.length > 0 || stackSeqence.length > 0) {
+            if (faultArray.length > 0 || stackSequence.length > 0) {
                 break;
             }
         }
@@ -47,26 +47,27 @@ export function openClose(cncCode: vscode.TextDocument): any {
         }
         const firstWord: string = line.match(/^\w*/)[0].toUpperCase();
         if (instruction[firstWord]) {
-            stackSeqence.push([firstWord, lineNumber]);
+            stackSequence.push([firstWord, lineNumber]);
             stackOpenClose[firstWord].push([firstWord, lineNumber, 'nicht geschlossen']);
         } else if (Object.values(instruction).includes(firstWord)) {
             stackOpenClose[`${Object.entries(instruction).find(([key, value]) => value === firstWord)?.[0]}`].pop();
-            if (stackSeqence.length === 0 || instruction[stackSeqence.pop()[0] as string] !== firstWord) {
+            if (stackSequence.length === 0 || instruction[stackSequence.pop()?.[0] as string] !== firstWord) {
                 faultArray.push([firstWord, lineNumber, 'Reihenfolge falsch']);
             }
         } else if (firstWord === 'ELSE') {
-            if (stackSeqence.length === 0 || stackSeqence[stackSeqence.length - 1][0] !== 'IF' ||
-                lastIf.includes(stackSeqence[stackSeqence.length - 1][1])) {
+            if (stackSequence.length === 0 || stackSequence[stackSequence.length - 1][0] !== 'IF' ||
+                lastIf.includes(stackSequence[stackSequence.length - 1][1])) {
                 faultArray.push([firstWord, lineNumber, 'Reihenfolge falsch']);
             } else {
-                lastIf.push(stackSeqence[stackSeqence.length - 1][1]);
+                lastIf.push(stackSequence[stackSequence.length - 1][1]);
             }
         }
     }
     for (let key in stackOpenClose) {
-        for (let i = 0; i < stackOpenClose[key].length; i++) {
-            faultArray.push(stackOpenClose[key][i]);
-        }
+        faultArray.push(...stackOpenClose[key]);
     }
     return faultArray;
 }
+
+
+

@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
 import { indentation } from './indent';
 
-export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
+export function formatNc(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
 
     // Setting Zeilen
     const config = vscode.workspace.getConfiguration('cleanup');
-    const indentSice = config.get<number>('3.indentSice', 1);
+    const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
 
     let countEmpty: number = 0;
@@ -25,7 +25,7 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
                 countIndent = 0;
             }
             // orginal Nummer speichern und die Anzahl der Nummer speichern
-            let orgNumber: any = line.text.match(/^\s*N\d+/i);
+            let orgNumber: string | RegExpMatchArray | null = line.text.match(/^\s*N\d+/i);
             if (!orgNumber) {
                 orgNumber = `N${'1'.repeat(digits)}`;
             } else {
@@ -49,7 +49,7 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSice);
+                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
                 countIndent = count;
 
                 // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen

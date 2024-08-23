@@ -7,7 +7,7 @@ export function renumber(cncCode: vscode.TextDocument, editor: vscode.TextEditor
     const config = vscode.workspace.getConfiguration('cleanup');
     const start = config.get<number>('1.start', 1);
     const inc = config.get<number>('2.inc', 1);
-    const indentSice = config.get<number>('3.indentSice', 1);
+    const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
 
     let lineNumber: number = start;
@@ -46,7 +46,7 @@ export function renumber(cncCode: vscode.TextDocument, editor: vscode.TextEditor
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSice);
+                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
                 countIndent = count;
 
                 // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen

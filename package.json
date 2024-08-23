@@ -43,7 +43,7 @@
                     "multipleOf": 1,
                     "description": "Schrittweite der Numerierung (1-1000)"
                 },
-                "cleanup.3.indentSice": {
+                "cleanup.3.indentSize": {
                     "type": "integer",
                     "default": 2,
                     "minimum": 0,
@@ -69,6 +69,10 @@
             {
                 "command": "nc_formatieren",
                 "title": "NC_formatieren"
+            },
+            {
+                "command": "nc_kontrollieren",
+                "title": "NC_kontrollieren"
             }
         ]
     },

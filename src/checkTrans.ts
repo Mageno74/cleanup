@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
-export function openCloseTrans(cncCode: vscode.TextDocument): any {
-    const faultArray: Array<any> = [];
+export function openCloseTrans(cncCode: vscode.TextDocument): Array<[string, number, string]> {
+    const faultArray: Array<[string, number, string]> = [];
     const instruction: { [key: string]: string } = {
         'ATRANS': 'TRANS',
         'AROT': 'ROT',
@@ -37,9 +37,7 @@ export function openCloseTrans(cncCode: vscode.TextDocument): any {
         }
     }
     for (let key in stackOpenClose) {
-        for (let i = 0; i < stackOpenClose[key].length; i++) {
-            faultArray.push(stackOpenClose[key][i]);
-        }
+        faultArray.push(...stackOpenClose[key]);
     }
     return faultArray;
 }

@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 const diagnosticCollection = vscode.languages.createDiagnosticCollection('cleanup');
 let isWindowOpen: boolean = false;
 
-export function markFaults(faults: Array<any>, cncCode: vscode.TextDocument): boolean {
+export function markFaults(faults: Array<[string, number, string]>, cncCode: vscode.TextDocument): boolean {
     const diagnostics: vscode.Diagnostic[] = [];
     diagnosticCollection.clear();
     let isFault = false;

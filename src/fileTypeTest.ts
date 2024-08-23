@@ -8,7 +8,7 @@ export function fileTypeCheck(lineText: any): boolean {
 }
 
 export function isIBNArc(document: vscode.TextDocument): boolean {
-    let faultArray: Array<any> = [];
+    let faultArray: Array<[string, number, string]> = [];
     if (!fileTypeCheck(document.fileName)) {
         faultArray.push([document.lineAt(0).text, 1, 'Abgebrochen >> Datei ist kein .MPF oder.SPF']);
     }
