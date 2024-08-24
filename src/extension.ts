@@ -8,40 +8,48 @@ import { isIBNArc } from './fileTypeTest';
 import { checkNC } from './onlyCheck';
 
 export function activate(context: vscode.ExtensionContext) {
-    let cleanupDisposable = vscode.commands.registerCommand('nc_nummerieren', () => {
-        processDocument(renumberNC);
-    });
+    const commands = [
+        { name: 'nc_nummerieren', handler: renumberNC },
+        { name: 'nc_formatieren', handler: formatNC },
+        { name: 'nc_kontrollieren', handler: checkNC },
+    ];
 
-    let onlyFormatDisposable = vscode.commands.registerCommand('nc_formatieren', () => {
-        processDocument(formatNC);
+    commands.forEach((command) => {
+        let disposable = vscode.commands.registerCommand(command.name, () => {
+            processDocument(command.handler);
+        });
+        context.subscriptions.push(disposable);
     });
-
-    let onlyCheckDisposable = vscode.commands.registerCommand('nc_kontrollieren', () => {
-        processDocument(checkNC);
-    });
-
-    context.subscriptions.push(cleanupDisposable);
-    context.subscriptions.push(onlyFormatDisposable);
-    context.subscriptions.push(onlyCheckDisposable);
 }
-
-// This method is called when your extension is deactivated
 export function deactivate() {}
 
 function processDocument(process: (doc: vscode.TextDocument, editor: vscode.TextEditor) => void) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
+        vscode.window.showErrorMessage('No active editor found.');
         return;
     }
+
     const doc = editor.document;
-    if (isIBNArc(doc)) {
-        vscode.window.showErrorMessage('Fehler >> siehe Menü -> Anzeigen -> Probleme');
-        return;
+    try {
+        if (isIBNArc(doc)) {
+            showError('Fehler >> siehe Menü -> Anzeigen -> Probleme');
+            return;
+        }
+
+        let faultArray = [...openClose(doc), ...openCloseTrans(doc)];
+        if (markFaults(faultArray, doc)) {
+            showError('Fehler >> siehe Menü -> Anzeigen -> Probleme');
+            return;
+        }
+
+        process(doc, editor);
+    } catch (error: any) {
+        showError(`An error occurred: ${error.message}`);
+        console.error(error);
     }
-    let faultArray = openClose(doc).concat(openCloseTrans(doc));
-    if (markFaults(faultArray, doc)) {
-        vscode.window.showErrorMessage('Fehler >> siehe Menü -> Anzeigen -> Probleme');
-        return;
-    }
-    process(doc, editor);
+}
+
+function showError(message: string) {
+    vscode.window.showErrorMessage(message);
 }

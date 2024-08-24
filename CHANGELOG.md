@@ -8,6 +8,8 @@ All notable changes to the "cleanup" extension will be documented in this file.
 
 ### Added
 
+- Befehl "NC_kontollieren" hinzu
+
 - kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gelöscht wird
 
 ## [v1.0.8] - 2024-07-28

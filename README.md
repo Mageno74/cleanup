@@ -10,11 +10,15 @@ Befehlszeile öffnen (Windows -> STRG+Shift+P, macOS -> Umschalt+Command+P)
 
 "nc_formatieren"  in die Befehlszeile schreiben und mit Enter Bestätigen --> NC_formatieren
 
+"nc_kontrollieren" in die Befehlszeile schreiben und mit Enter Bestätigen --> NC_kontollieren
+
 ## Features
 
-"NC_nummerieren" --> orginale Zeilennummern bleiben erhalten. Zeilen ohne Nummer bekommen die Nummer N1111
+"NC_nummerieren" --> es nummeriert den CNC Code neu. Es beginnt mit z.b."N1000" und erhöht jede Zeile um 5
 
-"NC_formatieren" --> es nummeriert den CNC Code neu. Es beginnt mit z.b."N1000" und erhöht jede Zeile um 5
+"NC_formatieren" --> orginale Zeilennummern bleiben erhalten. Zeilen ohne Nummer bekommen die Nummer N1111
+
+"NC_kontrollieren" --> es wird nicht formatiert oder nummeriert
 
 es werden Zeilen die nur eine Zeilennummer enthalten gelöscht
 
@@ -56,7 +60,9 @@ alles auf eigene Gefahr
 
 ### Added
 
-- kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gel�scht wird
+- Befehl "NC_kontollieren" hinzu
+
+- kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gel�scht wird
 
 ## [v1.0.8] - 2024-07-28
 
@@ -79,7 +85,7 @@ alles auf eigene Gefahr
 - Befehl nc_nummerieren --> NC_nummerieren
 - Befehl nc_formatieren --> NC_formatieren
 
-## [v1.0.5] - 
+## [v1.0.5] -
 
 ### Fixed
 
@@ -113,4 +119,3 @@ alles auf eigene Gefahr
 ## [v1.0.0] - 2024-06-20
 
 - Initial release
-
