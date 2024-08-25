@@ -3,7 +3,7 @@ export function brackets(text: string): boolean {
     const brackets: { [key: string]: string } = {
         '(': ')',
         '{': '}',
-        '[': ']'
+        '[': ']',
     };
     text = text.replace(/;.*/, ''); // entfernt alles hinter dem Semikolon
     for (let char of text) {

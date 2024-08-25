@@ -1,11 +1,10 @@
 import * as vscode from 'vscode';
 import { indentation } from './indent';
 
-export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
-
+export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
     // Setting Zeilen
     const config = vscode.workspace.getConfiguration('cleanup');
-    const indentSice = config.get<number>('3.indentSice', 1);
+    const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
 
     let countEmpty: number = 0;
@@ -14,10 +13,10 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
     let digits: number = 4;
 
     // Zeilen neu nummerieren und formatieren
-    editor.edit(editBuilder => {
+    editor.edit((editBuilder) => {
         for (let i = 0; i < cncCode.lineCount; i++) {
             let line: vscode.TextLine = cncCode.lineAt(i);
-            const timedLine = line.text.trim();
+            const trimedLine = line.text.trim();
 
             // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
             // Setzt die Einrückung auf Null
@@ -25,7 +24,7 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
                 countIndent = 0;
             }
             // orginal Nummer speichern und die Anzahl der Nummer speichern
-            let orgNumber: any = line.text.match(/^\s*N\d+/i);
+            let orgNumber: string | RegExpMatchArray | null = line.text.match(/^\s*N\d+/i);
             if (!orgNumber) {
                 orgNumber = `N${'1'.repeat(digits)}`;
             } else {
@@ -45,11 +44,11 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
             }
 
             // Zeilen ohne Nummer -> Kommnetare ohne Nummer, Programm Anfang und leere Zeilen
-            if (/^(;|%|$)/i.test(timedLine) || withoutNumberLine === '') {
+            if (/^(;|%|$)/i.test(trimedLine) || withoutNumberLine === '') {
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSice);
+                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
                 countIndent = count;
 
                 // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen
@@ -65,4 +64,3 @@ export function onlyFromat(cncCode: vscode.TextDocument, editor: vscode.TextEdit
     });
     vscode.window.showInformationMessage('formatiert');
 }
-
