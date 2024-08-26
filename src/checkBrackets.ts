@@ -6,7 +6,7 @@ export function brackets(text: string): boolean {
         '[': ']',
     };
     text = text.replace(/;.*/, ''); // entfernt alles hinter dem Semikolon
-    for (let char of text) {
+    for (const char of text) {
         if (brackets[char]) {
             stack.push(char);
         } else if (Object.values(brackets).includes(char)) {

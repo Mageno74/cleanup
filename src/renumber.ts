@@ -9,15 +9,15 @@ export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEdit
     const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
 
-    let lineNumber: number = start;
-    let countEmpty: number = 0;
-    let newText: string = '';
-    let countIndent: number = 0;
+    let lineNumber = start;
+    let countEmpty = 0;
+    let newText = '';
+    let countIndent = 0;
 
     // Zeilen neu nummerieren und formatieren
     editor.edit((editBuilder) => {
         for (let i = 0; i < cncCode.lineCount; i++) {
-            let line: vscode.TextLine = cncCode.lineAt(i);
+            const line = cncCode.lineAt(i);
             const trimedLine = line.text.trim();
 
             // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
@@ -27,7 +27,7 @@ export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEdit
                 countIndent = 0;
             }
             // Entfernt alle Nummern und Leerzeichen am Anfang und Ende
-            let withoutNumberLine: string = line.text.replace(/^\s*N\d+/i, '').trim();
+            let withoutNumberLine = line.text.replace(/^\s*N\d+/i, '').trim();
 
             // Entfernt Leerzeilen wenn mehr als 'maxEmptyLines' in Folge kommt
             if (withoutNumberLine === '') {

@@ -7,15 +7,15 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
     const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
 
-    let countEmpty: number = 0;
-    let newText: string = '';
-    let countIndent: number = 0;
-    let digits: number = 4;
+    let countEmpty = 0;
+    let newText = '';
+    let countIndent = 0;
+    let digits = 4;
 
     // Zeilen neu nummerieren und formatieren
     editor.edit((editBuilder) => {
         for (let i = 0; i < cncCode.lineCount; i++) {
-            let line: vscode.TextLine = cncCode.lineAt(i);
+            const line = cncCode.lineAt(i);
             const trimedLine = line.text.trim();
 
             // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
@@ -24,7 +24,7 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
                 countIndent = 0;
             }
             // orginal Nummer speichern und die Anzahl der Nummer speichern
-            let orgNumber: string | RegExpMatchArray | null = line.text.match(/^\s*N\d+/i);
+            let orgNumber = line.text.match(/^\s*N\d+/i) || '';
             if (!orgNumber) {
                 orgNumber = `N${'1'.repeat(digits)}`;
             } else {
@@ -32,7 +32,7 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
             }
 
             // Entfernt alle Nummern und Leerzeichen am Anfang und Ende
-            let withoutNumberLine: string = line.text.replace(/^\s*N\d+/i, '').trim();
+            let withoutNumberLine = line.text.replace(/^\s*N\d+/i, '').trim();
 
             // Entfernt Leerzeilen wenn mehr als 'maxEmptyLines' in Folge kommt
             if (withoutNumberLine === '') {
