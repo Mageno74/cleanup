@@ -62,7 +62,7 @@ alles auf eigene Gefahr
 
 - Befehl "NC_kontollieren" hinzu
 
-- kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gel�scht wird
+- kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gelöscht wird
 
 ## [v1.0.8] - 2024-07-28
 
