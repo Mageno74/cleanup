@@ -56,7 +56,7 @@ alles auf eigene Gefahr
 
 ## Release Notes
 
-## [v1.0.9] - 2024-08-??
+## [v1.0.9] - 2024-10-05
 
 ### Added
 
