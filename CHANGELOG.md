@@ -4,7 +4,7 @@ All notable changes to the "cleanup" extension will be documented in this file.
 
 ## [Unreleased] -
 
-## [v1.0.9] - 2024-10-05
+## [v1.0.9] - 2024-11-28
 
 ### Added
 
