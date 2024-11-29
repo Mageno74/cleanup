@@ -37,6 +37,9 @@ export function openCloseTrans(cncCode: vscode.TextDocument): Array<[string, num
         } else if (Object.values(instruction).includes(firstWord)) {
             stackOpenClose[`${Object.entries(instruction).find(([_, value]) => value === firstWord)?.[0]}`].length = 0;
         }
+        if (firstWord === 'TRANS'){
+            Object.values(stackOpenClose).some((arr)=> arr.length = 0);
+        }
     }
     return Object.values(stackOpenClose).flat();
 }

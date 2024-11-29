@@ -37,7 +37,8 @@ function processDocument(process: (doc: vscode.TextDocument, editor: vscode.Text
             return;
         }
 
-        let faultArray = [...openClose(doc), ...openCloseTrans(doc)];
+        //let faultArray = [...openClose(doc), ...openCloseTrans(doc)];
+        let faultArray = openClose(doc);
         if (markFaults(faultArray, doc)) {
             showError('Fehler >> siehe Menü -> Anzeigen -> Probleme');
             return;
