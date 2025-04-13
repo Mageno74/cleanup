@@ -1,10 +1,14 @@
 {
     "name": "cleanup",
     "displayName": "cleanup",
-    "description": "cleanup cnc code",
-    "version": "1.0.9",
+    "description": "NC Programme nummerieren und formatieren",
+    "version": "1.0.10",
     "publisher": "Mageno",
     "icon": "logo.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Mageno74/cleanup.git"
+    },
     "engines": {
         "vscode": "^1.90.0"
     },
