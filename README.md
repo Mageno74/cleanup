@@ -56,13 +56,11 @@ alles auf eigene Gefahr
 
 ## Release Notes
 
-## [v1.0.9] - 2024-08-??
+## [v1.0.9] - 2024-11-28
 
 ### Added
 
 - Befehl "NC_kontollieren" hinzu
-
-- kontrolle ob ATRANS, ASCALE, AROT und AMIRROR wieder gel�scht wird
 
 ## [v1.0.8] - 2024-07-28
 

@@ -1,10 +1,14 @@
 {
     "name": "cleanup",
     "displayName": "cleanup",
-    "description": "cleanup cnc code",
-    "version": "1.0.9",
+    "description": "NC Programme nummerieren und formatieren",
+    "version": "1.0.10",
     "publisher": "Mageno",
     "icon": "logo.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Mageno74/cleanup.git"
+    },
     "engines": {
         "vscode": "^1.90.0"
     },
@@ -92,11 +96,14 @@
         "@typescript-eslint/eslint-plugin": "^7.4.0",
         "@typescript-eslint/parser": "^7.4.0",
         "@vscode/test-cli": "^0.0.8",
-        "@vscode/test-electron": "^2.3.9",
+        "@vscode/test-electron": "^2.4.1",
         "chai": "^5.1.1",
         "eslint": "^8.57.0",
-        "mocha": "^10.7.0",
+        "mocha": "^10.7.3",
         "ts-node": "^10.9.2",
         "typescript": "^5.3.3"
     }
 }
+
+  
+  

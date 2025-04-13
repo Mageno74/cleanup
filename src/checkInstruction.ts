@@ -12,7 +12,7 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
         FOR: 'ENDFOR',
     };
     const lastIf: Array<number> = [];
-    let stackOpenClose: { [key: string]: Array<any> } = {
+    const stackOpenClose: { [key: string]: Array<[string, number, string]> } = {
         IF: [],
         WHILE: [],
         LOOP: [],
@@ -20,11 +20,11 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
     };
 
     for (let i = 0; i < cncCode.lineCount; i++) {
-        let line: any = cncCode
+        let line = cncCode
             .lineAt(i)
             .text.replace(/^\s*N\d+/i, '')
             .trim();
-        const lineNumber: number = i + 1;
+        const lineNumber = i + 1;
 
         // kontrolle ob Klammern paarweise vorkommen und in der richtigen Reihenfolge
         if (!brackets(line)) {
@@ -36,7 +36,7 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
         if (/^%/.test(line)) {
             if (!fileTypeCheck(line)) {
                 vscode.window.showErrorMessage('Fehler >> siehe Menü -> Anzeigen -> Probleme');
-                faultArray.push([line, lineNumber, 'Falscher Dateiendung >> nur xxx_MPF oder xxx_SPF']);
+                faultArray.push([line, lineNumber, 'Falsche Dateiendung >> nur xxx_MPF oder xxx_SPF']);
             }
             if (faultArray.length > 0 || stackSequence.length > 0) {
                 break;
@@ -48,12 +48,15 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
         if (/^.*\b(GOTO(F|B)?)\b/i.test(line)) {
             continue;
         }
-        const firstWord: string = line.match(/^\w*/)[0].toUpperCase();
+        const firstWord = line.match(/^\w*/)?.[0].toUpperCase() || '';
         if (instruction[firstWord]) {
             stackSequence.push([firstWord, lineNumber]);
             stackOpenClose[firstWord].push([firstWord, lineNumber, 'nicht geschlossen']);
         } else if (Object.values(instruction).includes(firstWord)) {
-            stackOpenClose[`${Object.entries(instruction).find(([key, value]) => value === firstWord)?.[0]}`].pop();
+            const key = Object.entries(instruction).find(([key, value]) => value === firstWord)?.[0];
+            if (key) {
+                stackOpenClose[key].pop();
+            }
             if (stackSequence.length === 0 || instruction[stackSequence.pop()?.[0] as string] !== firstWord) {
                 faultArray.push([firstWord, lineNumber, 'Reihenfolge falsch']);
             }
@@ -69,11 +72,6 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
             }
         }
     }
-    for (let key in stackOpenClose) {
-        faultArray.push(...stackOpenClose[key]);
-    }
+    faultArray.push(...Object.values(stackOpenClose).flat());
     return faultArray;
 }
-
-
-
