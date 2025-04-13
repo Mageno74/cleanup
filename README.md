@@ -56,6 +56,12 @@ alles auf eigene Gefahr
 
 ## Release Notes
 
+## [v1.0.10] - 2025-04-13
+
+### Added
+
+- Repository veröffenticht
+
 ## [v1.0.9] - 2024-11-28
 
 ### Added
