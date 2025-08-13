@@ -56,6 +56,12 @@ alles auf eigene Gefahr
 
 ## Release Notes
 
+## [v1.0.11] - 2025-08-13
+
+### Fixed
+
+- Semikolon in Stings werden ignoriert
+
 ## [v1.0.10] - 2025-04-13
 
 ### Added
