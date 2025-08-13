@@ -5,6 +5,7 @@ export function brackets(text: string): boolean {
         '{': '}',
         '[': ']',
     };
+    text = text.replace(/"[^"]*"/g, ''); // entfernt alles zwischen Anführungszeichen
     text = text.replace(/;.*/, ''); // entfernt alles hinter dem Semikolon
     for (const char of text) {
         if (brackets[char]) {

@@ -3,7 +3,6 @@ import { markFaults } from './faultsHandling';
 import { openClose } from './checkInstruction';
 import { formatNC } from './onlyFormat';
 import { renumberNC } from './renumber';
-import { openCloseTrans } from './checkTrans';
 import { isIBNArc } from './fileTypeTest';
 import { checkNC } from './onlyCheck';
 
