@@ -46,7 +46,6 @@ function processDocument(process: (doc: vscode.TextDocument, editor: vscode.Text
         process(doc, editor);
     } catch (error: any) {
         showError(`An error occurred: ${error.message}`);
-        console.error(error);
     }
 }
 
