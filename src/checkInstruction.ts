@@ -17,12 +17,13 @@ function initializeDataStructures() {
             LOOP: [],
             FOR: [],
             GROUP_BEGIN: [],
+            REPEAT: [],
         },
     };
 }
 
 // Funktion zur Verarbeitung einer einzelnen Zeile
-function processLine(line:string, lineNumber:number, data:any, instruction:any): boolean {
+function processLine(line: string, lineNumber: number, data: any, instruction: any): boolean {
     // Klammerprüfung
     if (!brackets(line)) {
         data.faultArray.push(['Klammer', lineNumber, 'nicht paarweise']);
@@ -49,7 +50,7 @@ function processLine(line:string, lineNumber:number, data:any, instruction:any):
 }
 
 // Funktion zur Behandlung der Gruppenlogik
-function handleGroupLogic(match:any, lineNumber:number, data:any, instruction:any) {
+function handleGroupLogic(match: any, lineNumber: number, data: any, instruction: any) {
     const { group: firstWord, groupID, groupName } = match;
     if (instruction[firstWord]) {
         data.stackSequence.push([firstWord, lineNumber]);
@@ -76,7 +77,7 @@ function handleGroupLogic(match:any, lineNumber:number, data:any, instruction:an
 }
 
 // Funktion zur Behandlung von ELSE
-function handleElseLogic(firstWord:string, lineNumber:number, data:any) {
+function handleElseLogic(firstWord: string, lineNumber: number, data: any) {
     if (
         data.stackSequence.length === 0 ||
         data.stackSequence[data.stackSequence.length - 1][0] !== 'IF' ||
@@ -89,7 +90,7 @@ function handleElseLogic(firstWord:string, lineNumber:number, data:any) {
 }
 
 // Funktion zur Behandlung von GROUP_BEGIN
-function handleGroupBegin(firstWord:string, groupID:number, groupName:string, lineNumber:number, data:any) {
+function handleGroupBegin(firstWord: string, groupID: number, groupName: string, lineNumber: number, data: any) {
     if (data.stackSequenceGroup.includes(groupID)) {
         data.faultArray.push([
             firstWord,
@@ -102,7 +103,7 @@ function handleGroupBegin(firstWord:string, groupID:number, groupName:string, li
 }
 
 // Funktion zur Behandlung von GROUP_END
-function handleGroupEnd(firstWord:string, groupID:number, groupName:string, lineNumber:number, data:any) {
+function handleGroupEnd(firstWord: string, groupID: number, groupName: string, lineNumber: number, data: any) {
     if (data.stackSequenceGroup.length === 0 || groupID !== data.stackSequenceGroup.pop()) {
         data.faultArray.push([firstWord, lineNumber, `GROUP_END(${groupID}${groupName}) in falscher Reihenfolge`]);
     }
@@ -118,6 +119,7 @@ export function openClose(cncCode: vscode.TextDocument): Array<[string, number, 
         LOOP: 'ENDLOOP',
         FOR: 'ENDFOR',
         GROUP_BEGIN: 'GROUP_END',
+        REPEAT: 'UNTIL',
     };
 
     for (let i = 0; i < cncCode.lineCount; i++) {

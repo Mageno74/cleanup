@@ -1,7 +1,7 @@
 export function indentation(withoutNumberLine: string, count: number, indentSize: number): [string, number] {
     // Reguläre Ausdrücke für Anweisungen
-    const closeInstruction = /^\b(ENDIF|ENDWHILE|ELSE|ENDLOOP|ENDFOR)\b/i;
-    const openInstruction = /^\b(IF|WHILE|ELSE|LOOP|FOR)\b/i;
+    const closeInstruction = /^\b(ENDIF|ENDWHILE|ELSE|ENDLOOP|ENDFOR|UNTIL)\b/i;
+    const openInstruction = /^\b(IF|WHILE|ELSE|LOOP|FOR|REPEAT$)\b/i;
     const gotoInstruction = /^.*\b(GOTO(F|B)?)\b/i;
     const BASIC_INDENT = 1;
 
