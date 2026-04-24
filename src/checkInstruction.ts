@@ -104,9 +104,10 @@ function handleGroupBegin(firstWord: string, groupID: number, groupName: string,
 
 // Funktion zur Behandlung von GROUP_END
 function handleGroupEnd(firstWord: string, groupID: number, groupName: string, lineNumber: number, data: any) {
-    if (data.stackSequenceGroup.length === 0 || groupID !== data.stackSequenceGroup.pop()) {
+    if (data.stackSequenceGroup.length === 0 || groupID !== data.stackSequenceGroup[data.stackSequenceGroup.length - 1]) {
         data.faultArray.push([firstWord, lineNumber, `GROUP_END(${groupID}${groupName}) in falscher Reihenfolge`]);
     }
+    data.stackSequenceGroup.pop();
     data.stackGroup.pop();
 }
 
