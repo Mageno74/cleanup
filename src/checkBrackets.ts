@@ -1,12 +1,14 @@
-export function brackets(text: string, lineNumber: number, data:any) {
+export function checkbrackets(text: string, lineNumber: number, data:any) {
+    const stringRegex = /"[^"]*"/g;
+    const coment = /;.*/;
     const stack: string[] = [];
     const brackets: { [key: string]: string } = {
         '(': ')',
         '{': '}',
         '[': ']',
     };
-    text = text.replace(/"[^"]*"/g, ''); // entfernt alles zwischen Anführungszeichen
-    text = text.replace(/;.*/, ''); // entfernt alles hinter dem Semikolon
+    text = text.replace(stringRegex, ''); // entfernt alles zwischen Anführungszeichen
+    text = text.replace(coment, ''); // entfernt alles hinter dem Semikolon
     for (const char of text) {
         if (brackets[char]) {
             stack.push(char);

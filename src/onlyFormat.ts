@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
-import { indentation } from './indent';
+import { createIndentationSize } from './indent';
 
 export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
     // Setting Zeilen
     const config = vscode.workspace.getConfiguration('cleanup');
     const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
+    const lineNumb = /^\s*N\d+/i;
+    const emtyLine = /^(;|%|$)/i;
 
     let countEmpty = 0;
     let newText = '';
@@ -24,7 +26,7 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
                 countIndent = 0;
             }
             // orginal Nummer speichern und die Anzahl der Nummer speichern
-            let orgNumber = line.text.match(/^\s*N\d+/i) || '';
+            let orgNumber = line.text.match(lineNumb) || '';
             if (!orgNumber) {
                 orgNumber = `N${'1'.repeat(digits)}`;
             } else {
@@ -32,7 +34,7 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
             }
 
             // Entfernt alle Nummern und Leerzeichen am Anfang und Ende
-            let withoutNumberLine = line.text.replace(/^\s*N\d+/i, '').trim();
+            let withoutNumberLine = line.text.replace(lineNumb, '').trim();
 
             // Entfernt Leerzeilen wenn mehr als 'maxEmptyLines' in Folge kommt
             if (withoutNumberLine === '') {
@@ -44,11 +46,11 @@ export function formatNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor
             }
 
             // Zeilen ohne Nummer -> Kommnetare ohne Nummer, Programm Anfang und leere Zeilen
-            if (/^(;|%|$)/i.test(trimedLine) || withoutNumberLine === '') {
+            if (emtyLine.test(trimedLine) || withoutNumberLine === '') {
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
+                const [whitespace, count] = createIndentationSize(withoutNumberLine, countIndent, indentSize);
                 countIndent = count;
 
                 // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { indentation } from './indent';
+import { createIndentationSize } from './indent';
 
 export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
     // Setting Zeilen
@@ -8,8 +8,11 @@ export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEdit
     const inc = config.get<number>('2.inc', 1);
     const indentSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
+    const emptyLine = /^(;|%|$)/i;
+    const lineNumb = /^\s*N\d+/i;
+    const newProg = /^%/;
 
-    let lineNumber = start;
+    let lineNum = start;
     let countEmpty = 0;
     let newText = '';
     let countIndent = 0;
@@ -22,12 +25,12 @@ export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEdit
 
             // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
             // Setzt die Einrückung auf Null
-            if (/^%/.test(line.text)) {
-                lineNumber = start;
+            if (newProg.test(line.text)) {
+                lineNum = start;
                 countIndent = 0;
             }
             // Entfernt alle Nummern und Leerzeichen am Anfang und Ende
-            let withoutNumberLine = line.text.replace(/^\s*N\d+/i, '').trim();
+            let withoutNumberLine = line.text.replace(lineNumb, '').trim();
 
             // Entfernt Leerzeilen wenn mehr als 'maxEmptyLines' in Folge kommt
             if (withoutNumberLine === '') {
@@ -41,16 +44,16 @@ export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEdit
             }
 
             // Zeilen ohne Nummer -> Kommnetare ohne Nummer, Programm Anfang und leere Zeilen
-            if (/^(;|%|$)/i.test(trimedLine) || withoutNumberLine === '') {
+            if (emptyLine.test(trimedLine) || withoutNumberLine === '') {
                 newText = withoutNumberLine;
             } else {
                 // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
+                const [whitespace, count] = createIndentationSize(withoutNumberLine, countIndent, indentSize);
                 countIndent = count;
 
                 // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen
-                newText = `N${lineNumber}${whitespace}${withoutNumberLine}`;
-                lineNumber += inc;
+                newText = `N${lineNum}${whitespace}${withoutNumberLine}`;
+                lineNum += inc;
             }
             // ersetzt die orginale Zeile mit der nummerierten Zeile
             editBuilder.replace(line.range, newText);
