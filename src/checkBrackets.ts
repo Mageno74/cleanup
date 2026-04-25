@@ -1,4 +1,4 @@
-export function brackets(text: string): boolean {
+export function brackets(text: string, lineNumber: number, data:any) {
     const stack: string[] = [];
     const brackets: { [key: string]: string } = {
         '(': ')',
@@ -12,9 +12,11 @@ export function brackets(text: string): boolean {
             stack.push(char);
         } else if (Object.values(brackets).includes(char)) {
             if (stack.length === 0 || brackets[stack.pop() as string] !== char) {
-                return false;
+            data.faultArray.push(['Klammer', lineNumber, 'nicht paarweise']);
             }
         }
     }
-    return stack.length === 0;
+    if (stack.length === 0){
+        data.faultArray.push(['Klammer', lineNumber, 'nicht paarweise']);
+    }
 }

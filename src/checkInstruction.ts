@@ -24,11 +24,6 @@ function initializeDataStructures() {
 
 // Funktion zur Verarbeitung einer einzelnen Zeile
 function processLine(line: string, lineNumber: number, data: any, instruction: any): boolean {
-    // Klammerprüfung
-    if (!brackets(line)) {
-        data.faultArray.push(['Klammer', lineNumber, 'nicht paarweise']);
-    }
-
     // Anweisungsprüfung
     if (/^%/.test(line)) {
         if (!fileTypeCheck(line)) {
@@ -39,6 +34,9 @@ function processLine(line: string, lineNumber: number, data: any, instruction: a
             return false; // Abbruchbedingung
         }
     }
+
+    // Klammerprüfung
+    brackets(line, lineNumber, data);
 
     // Gruppenprüfung
     const match = group(line.replace(/;.*/, ''), instruction);
