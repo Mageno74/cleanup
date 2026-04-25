@@ -1,25 +1,21 @@
-export function createIndentationSize(withoutNumberLine: string, count: number, indentSize: number): [string, number] {
-    // Reguläre Ausdrücke für Anweisungen
-    const closeInstruction = /^\b(ENDIF|ENDWHILE|ELSE|ENDLOOP|ENDFOR|UNTIL)\b/i;
-    const openInstruction = /^\b(IF|WHILE|ELSE|LOOP|FOR|REPEAT$)\b/i;
-    const gotoInstruction = /^.*\b(GOTO(F|B)?)\b/i;
-    const coment = /;.*$/;
+import { RegexDictionary } from './dataDict';
+
+export function createIndentationSize(withoutNumberLine: string, indentData: any, indentSize: number) {
+    const regex = new RegexDictionary();
     const BASIC_INDENT = 1;
 
-    // enfernt alles nach einem Semikolon
-    withoutNumberLine = withoutNumberLine.replace(coment, '');
+    const cleanedLine = withoutNumberLine.replace(regex.comment, '').trim();
 
-    // subtrahiert 1 von count wenn ENDIF, ENDWHILE, ELSE, ENDLOOP, ENDFOR am Anfang der Zeile steht
-    if (closeInstruction.test(withoutNumberLine) && count > 0) {
-        count--;
+    // Überprüfen, ob die Einrückung reduziert werden soll
+    if (regex.closeInstruction.test(cleanedLine) && indentData.indentLevel > 0) {
+        indentData.indentLevel--;
     }
 
-    // legt die Einrückung fest
-    const whitespace = ' '.repeat(indentSize * count + BASIC_INDENT);
+    // Einrückung berechnen
+    indentData.whitespace = ' '.repeat(indentSize * indentData.indentLevel + BASIC_INDENT);
 
-    // addiert 1 zu count wenn IF, WHILE, ELSE, LOOP, FOR am Anfang der Zeile steht und kein GOTO/F/B folgt
-    if (openInstruction.test(withoutNumberLine) && !gotoInstruction.test(withoutNumberLine)) {
-        count++;
+    // Überprüfen, ob die Einrückung erhöht werden soll
+    if (regex.openInstruction.test(cleanedLine) && !regex.gotoInstruction.test(cleanedLine)) {
+        indentData.indentLevel++;
     }
-    return [whitespace, count];
 }
