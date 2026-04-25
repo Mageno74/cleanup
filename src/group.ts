@@ -1,4 +1,5 @@
 export function group(line: string, instruction: { [key: string]: string }): { group: string; groupID?: string; groupName?: string } | null {
+    line = line.replace(/;.*/, '')
     const match = line.match(/^(\w*)\s*\(?\s*(\d+)?(.*)/i);
 
     if (/^.*\b(GOTO(F|B)?)\b/i.test(line)) {

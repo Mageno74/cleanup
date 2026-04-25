@@ -16,7 +16,7 @@ export function brackets(text: string, lineNumber: number, data:any) {
             }
         }
     }
-    if (stack.length === 0){
+    if (stack.length !== 0){
         data.faultArray.push(['Klammer', lineNumber, 'nicht paarweise']);
     }
 }

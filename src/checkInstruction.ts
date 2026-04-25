@@ -39,7 +39,7 @@ function processLine(line: string, lineNumber: number, data: any, instruction: a
     brackets(line, lineNumber, data);
 
     // Gruppenprüfung
-    const match = group(line.replace(/;.*/, ''), instruction);
+    const match = group(line, instruction);
     if (match) {
         handleGroupLogic(match, lineNumber, data, instruction);
     }
