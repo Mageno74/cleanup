@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { markFaults } from './faultsHandling';
-import { openClose } from './checkInstruction';
+import { displayFaults } from './faultsHandling';
+import { checkOpenClose } from './checkOpenClose';
 import { formatNC } from './onlyFormat';
 import { renumberNC } from './renumber';
 import { isIBNArc } from './fileTypeTest';
@@ -35,10 +35,8 @@ function processDocument(process: (doc: vscode.TextDocument, editor: vscode.Text
             showError('Fehler >> siehe Menü -> Anzeigen -> Probleme');
             return;
         }
-
-        //let faultArray = [...openClose(doc), ...openCloseTrans(doc)];
-        let faultArray = openClose(doc);
-        if (markFaults(faultArray, doc)) {
+        
+        if (displayFaults(checkOpenClose(doc), doc)) {
             showError('Fehler >> siehe Menü -> Anzeigen -> Probleme');
             return;
         }
@@ -46,7 +44,6 @@ function processDocument(process: (doc: vscode.TextDocument, editor: vscode.Text
         process(doc, editor);
     } catch (error: any) {
         showError(`An error occurred: ${error.message}`);
-        console.error(error);
     }
 }
 

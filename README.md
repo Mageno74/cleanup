@@ -34,6 +34,8 @@ es wird überprüft ob IF/ENDIF/ELSE, WHILE/ENDWHILE, LOOP/ENDLOOP FOR/ENDFOR pa
 
 die Verschachtelung von IF/ENDIF/ELSE, WHILE/ENDWHILE, LOOP/ENDLOOP FOR/ENDFOR wird überprüft
 
+GROUP_BIGIN und GROUP_END überprüfen
+
 es wird überprüft ob Klammern paarweise vorkommen
 
 ## Requirements
@@ -55,6 +57,10 @@ Maximanle Anzahl an leeren Zeilen --> Legt fest wie viele leere Zeilen in Folge 
 alles auf eigene Gefahr
 
 ## Release Notes
+
+## [v1.1.0] - 2026-05-01
+
+- GROUP_BEGIN und GROUP_END kontrolle hinzu
 
 ## [v1.0.11] - 2025-08-13
 

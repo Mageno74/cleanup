@@ -1,63 +1,49 @@
 import * as vscode from 'vscode';
-import { indentation } from './indent';
+import { createIndentationSize } from './indent';
+import { createDataDictionary, RegexDictionary } from './dataDict';
+import { deletedLineNumber, removeEmptyLines, newProgramResetIndent } from './utility';
 
-export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor) {
-    // Setting Zeilen
+export function renumberNC(cncCode: vscode.TextDocument, editor: vscode.TextEditor): void {
     const config = vscode.workspace.getConfiguration('cleanup');
-    const start = config.get<number>('1.start', 1);
-    const inc = config.get<number>('2.inc', 1);
-    const indentSize = config.get<number>('3.indentSize', 1);
+    const startNumber = config.get<number>('1.start', 1);
+    const increment = config.get<number>('2.inc', 1);
+    const identSize = config.get<number>('3.indentSize', 1);
     const maxEmptyLines = config.get<number>('4.maxEmptyLines', 1);
+    const regex = new RegexDictionary();
+    const renumberData = createDataDictionary();
 
-    let lineNumber = start;
-    let countEmpty = 0;
-    let newText = '';
-    let countIndent = 0;
+    renumberData.curentLineNumber = startNumber;
 
-    // Zeilen neu nummerieren und formatieren
     editor.edit((editBuilder) => {
         for (let i = 0; i < cncCode.lineCount; i++) {
             const line = cncCode.lineAt(i);
-            const trimedLine = line.text.trim();
+            const trimmedLine = line.text.trim();
 
-            // Setzt die Zeilennummer auf die Startnummer, wenn ein neues Programm anfängt (MultiArchiv)
-            // Setzt die Einrückung auf Null
-            if (/^%/.test(line.text)) {
-                lineNumber = start;
-                countIndent = 0;
-            }
-            // Entfernt alle Nummern und Leerzeichen am Anfang und Ende
-            let withoutNumberLine = line.text.replace(/^\s*N\d+/i, '').trim();
+            // Zurücksetzen der Zeilennummer und Einrückung bei neuem Programm
+            newProgramResetIndent(trimmedLine, renumberData, startNumber);
 
-            // Entfernt Leerzeilen wenn mehr als 'maxEmptyLines' in Folge kommt
-            if (withoutNumberLine === '') {
-                countEmpty++;
-                newText = withoutNumberLine;
-                // ersetzt die orginale Zeile mit der nummerierten Zeile
-                if (countEmpty > maxEmptyLines) {
-                    editBuilder.delete(line.rangeIncludingLineBreak);
-                    continue;
-                }
-            }
+            // Zeilennummer entfernen und bereinigte Zeile erhalten
+            const withoutNumberLine = deletedLineNumber(trimmedLine);
 
-            // Zeilen ohne Nummer -> Kommnetare ohne Nummer, Programm Anfang und leere Zeilen
-            if (/^(;|%|$)/i.test(trimedLine) || withoutNumberLine === '') {
-                newText = withoutNumberLine;
+            // Entfernen von überflüssigen Leerzeilen
+            removeEmptyLines(withoutNumberLine, renumberData, maxEmptyLines, editBuilder, line);
+
+            // Zeilen ohne Nummer (Kommentare, Programmstart, leere Zeilen)
+            if (regex.noNcCode.test(withoutNumberLine)) {
+                renumberData.newLine = withoutNumberLine;
             } else {
-                // legt die Einrückung fest
-                const [whitespace, count] = indentation(withoutNumberLine, countIndent, indentSize);
-                countIndent = count;
+                // Einrückung berechnen
+                createIndentationSize(withoutNumberLine, renumberData, identSize);
 
-                // Fügt die neue Zeilennummer, Leerzeichen und Text zusammen
-                newText = `N${lineNumber}${whitespace}${withoutNumberLine}`;
-                lineNumber += inc;
+                // Neue Zeilennummer, Einrückung und Text zusammenfügen
+                renumberData.newLine = `N${renumberData.curentLineNumber}${renumberData.whitespace}${withoutNumberLine}`;
+                renumberData.curentLineNumber += increment;
             }
-            // ersetzt die orginale Zeile mit der nummerierten Zeile
-            editBuilder.replace(line.range, newText);
-            if (newText !== '') {
-                countEmpty = 0; // setzt den Zähler für die leeren Zeilen zurück
-            }
+
+            // Originalzeile ersetzen
+            editBuilder.replace(line.range, renumberData.newLine);
         }
     });
-    vscode.window.showInformationMessage('nummeriert und formatiert');
+
+    vscode.window.showInformationMessage('Nummeriert und formatiert');
 }
